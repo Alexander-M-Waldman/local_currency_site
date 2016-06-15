@@ -1,5 +1,5 @@
 
-SECRET_KEY = '(dxnf(^&v+0eqhcytf(##0(^hpag_ack6+#ornu-7#2_o=557z'
+SECRET_KEY = 'key'
 DBNAME = 'geodjango'
 DBHOST = 'localhost'
 DBUSER = 'usr'
