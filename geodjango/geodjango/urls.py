@@ -16,15 +16,15 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 import web
-from django.views.generic import TemplateView
+#from django.views.generic import TemplateView
 from django.conf import settings
 from django.conf.urls.static import static
-#from registration.backends.simple.views import *#RegistrationView    
-#from django.core.urlresolvers import reverse
-#import userena
-# class MyRegistrationView(RegistrationView):
-#         def get_success_url(self, request, user):
-#             return '/rango/'
+##from registration.backends.simple.views import *#RegistrationView    
+##from django.core.urlresolvers import reverse
+##import userena
+## class MyRegistrationView(RegistrationView):
+##         def get_success_url(self, request, user):
+##             return '/rango/'
 
 
 urlpatterns = [
@@ -35,7 +35,14 @@ urlpatterns = [
     url(r'^$', web.home, name='home'),
     url(r'^about/', web.about, name='about'),
     url(r'^contact/', web.contact, name='contact'),
-    url(r'^directory/', web.directory, name='directory'),
+    url(r'^map/', web.MapListView.as_view(), name='map'),
+    url(r'^directory/', web.DirectoryListView.as_view(), name='directory'),
+    url(r'^accounts/', include('allauth.urls')),
+    ##url(r'^accounts/profile', views.profile, name='profile'),
+    ##url(r'^accounts/profile', views.edit_user, name='profile'),
+    url(r'^accounts/', include('members.urls')),
+
+
     #url(r'^accounts/', include("userena.urls")),
     #url(r'^signup/', include('userena.urls')),
 

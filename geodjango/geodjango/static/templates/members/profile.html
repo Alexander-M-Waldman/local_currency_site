@@ -1,0 +1,21 @@
+{% extends 'base/membase.html' %}
+{% load static %}
+
+{% block title %}Profile - {{ block.super }}{% endblock %}
+
+
+{% block content1 %}
+{% csrf_token %}
+<a href="{% url 'update' user.pk %}">Update Profile</a>
+
+<h2>
+{{ user.user.name }}
+</h2>
+<!-- <img src = "{{request.user.user.image }}"> -->
+<img src = "{{user.user.avatar.url }}" class = "profileimg" max height="300" >
+<!-- <li>{{ user.email }}</li> -->
+<li>{{ user.user.city }}</li>
+<p>{{ user.user.bio }}</p>
+<!-- <li>{{ user.user.website }}</li> -->
+
+{% endblock %}

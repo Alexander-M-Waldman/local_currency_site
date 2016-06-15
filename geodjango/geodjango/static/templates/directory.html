@@ -1,0 +1,41 @@
+{% extends 'base/membase.html' %}
+
+{% block content1 %}
+
+	<ul>
+		{% for user in object_list %}
+			<li>
+            <a href="/accounts/profile/{{user.user.user_id}}" class = "clear">{{ user.user.name }}</a>	
+			</li>
+			<img src = "{{user.user.avatar.url }}" max height="300">
+			<!-- <li>{{ user.email }}</li> -->
+			<li>{{ user.user.city }}</li>
+			<hr>
+
+		{% endfor %}
+	</ul>
+
+{% endblock %}
+
+{% block content2 %}
+
+<select id="mySelect" onchange="myFunction()">
+  <option value="Eat">Eat
+  <option value="Live">Live
+  <option value="Learn">Learn
+  <option value="Play">Play
+  <option value="Services">Services
+  <option value="Work">Work	
+</select>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+    var x = document.getElementById("mySelect").value;
+    document.getElementById("demo").innerHTML = "You selected: " + x;
+}
+</script>
+
+{% endblock %}
+

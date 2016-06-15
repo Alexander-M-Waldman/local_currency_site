@@ -10,15 +10,24 @@ from forms import ContactForm
 from django.template.loader import get_template
 from django.core.mail import EmailMessage
 from django.template import Context
+from django.contrib.auth.models import User
+from django.views import generic
 
+def map(request):
+    return render_to_response("map.html", locals())
 
+class MapListView(generic.ListView):
+    template_name = 'map.html'
+
+    def get_queryset(self):
+        return User.objects.all()
 
 
 def checkin(request):
 	return render_to_response("checkin.html", locals())
 
 def home(request):
-	return render_to_response("home.html", locals())	
+	return render_to_response("home0.html", locals())	
 
 def about(request):
 	return render_to_response("about.html", locals())
@@ -61,8 +70,13 @@ def contact(request):
         'form': form_class,
     })
 
-def directory(request):
-	return render_to_response("directory.html", locals())
+# def directory(request):
+# 	return render_to_response("directory.html", locals())
+class DirectoryListView(generic.ListView):
+    template_name = 'directory.html'
+
+    def get_queryset(self):
+        return User.objects.all()
 
 
 @csrf_exempt	

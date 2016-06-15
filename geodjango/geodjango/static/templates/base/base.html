@@ -1,3 +1,4 @@
+{% load static %}
 <html>
 	<head>
 		<!-- <meta http-equiv="Content-type" content="text/html; charset-utf-8"> -->
@@ -10,38 +11,41 @@
 	     <!--<link href="css/bootstrap.min.css" rel="stylesheet">-->
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
+
 	    <!-- Custom CSS -->
-	    <!-- {% load static from staticfiles %} -->
-	    <!-- <link href="{% static "landingpage.css" %}" rel="stylesheet"> -->
 	    <link rel='stylesheet' href='{% static "css/landingpage.css" %}'>
 
+<!--     	<link href="https://www.vusive.com/v2/plugins/textillate/animate.css" rel="stylesheet"/>
+ -->
 	    <!-- Custom Fonts -->
 	    <link rel='stylesheet' type='text/css' href='{% static "font-awesome/css/font-awesome.min.css" %}' >
+	    <link href='http://fonts.googleapis.com/css?family=Berkshire+Swash' rel='stylesheet' type='text/css'>
+
 	    <!-- <link href="/geodjango/static/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"> -->
-	    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+<!-- 	    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+ -->
+		
+
+	    <!-- custom css -->
+	    <link rel='stylesheet' href='{% static "css/map.css" %}'>
+
+	    <!-- leaflet -->
+		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+		<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+
+		<!-- mapbox -->
+        <script src='https://api.mapbox.com/mapbox-gl-js/v0.19.1/mapbox-gl.js'></script>
+        <script src='https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.js'></script>
+		<link href='https://api.mapbox.com/mapbox-gl-js/v0.19.1/mapbox-gl.css' rel='stylesheet' />
+
+
 
 		<title>{% block title %}{% endblock %}</title>
-
-		<style>
-		  body {
-		    padding-top: 60px;
-		  }
-		  @media (max-width: 980px) {
-		    body {
-		      padding-top: 0;
-		    }
-		  }
-
-   		 html,body{
-  	     	height: 100%
-		 }
-
-		</style>
 
 
 	</head>
 
-	<body>
+	<body id="bootstrap-overrides">
 		    <!-- Navigation -->
 	    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
 	        <div class="container topnav">
@@ -53,7 +57,7 @@
 	                    <span class="icon-bar"></span>
 	                    <span class="icon-bar"></span>
 	                </button>
-	                <a class="navbar-brand topnav" href="#">Invest in Our Community!</a>
+	                <a class="navbar-brand topnav" href="{% url 'home' %}">LoveBucks Home</a>
 	            </div>
 	            <!-- Collect the nav links, forms, and other content for toggling -->
 	            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -62,11 +66,18 @@
 	                        <a href="{% url 'about' %}">About</a>
 	                    </li>
 	                    <li>
-	                        <a href="{% url 'checkin' %}">Login</a>
-
+	                        <a href="{% url 'directory' %}">Directory</a>
 	                    </li>
 	                    <li>
-	                        <a href="{% url 'directory' %}">Directory</a>
+	                    	<a href="{% url 'map' %}">Map</a>
+	                    </li>
+	                    <li>
+	                    	{% if user.is_authenticated %}
+	                        <a href="{% url 'account_logout' %}">Logout</a>
+	                        {% else %}
+	                        <a href="{% url 'account_login' %}">Login</a>
+	                        {% endif %}
+
 	                    </li>
 	                </ul>
 	            </div>
@@ -75,32 +86,18 @@
 	        <!-- /.container -->
 	    </nav>
 
-	    <div class="container">
-	    	<div class="row">
-	    		<div class="col-lg-5 col-sm-6">
-					{% block content %}{% endblock %}
-				</div>
-			</div>
-			<div class="row">
-	    		<div class="col-lg-5 col-sm-6">
-					{% block content2 %}{% endblock %}
-				</div>
-			</div>
-			<div class="row">
-	    		<div class="col-lg-5 col-sm-6">
-					
-				</div>
-			</div>
-		</div>
+	    {% block content0 %}
 
-		<a  name="contact"></a>
+		{% endblock %}
+
+		
 	    <div class="banner">
 
 	        <div class="container">
 
 	            <div class="row">
 	                <div class="col-lg-6">
-	                    <h2>Connect with North Bucks:</h2>
+	                    <h2>Connect with Love Bucks</h2>
 	                </div>
 	                <div class="col-lg-6">
 	                    <ul class="list-inline banner-social-buttons">
@@ -138,7 +135,7 @@
 	                        </li>
 	                        <li class="footer-menu-divider">&sdot;</li>
 	                        <li>
-	                            <a href="#services">Services</a>
+	                            <a href="{% url 'directory' %}">Directory</a>
 	                        </li>
 	                        <li class="footer-menu-divider">&sdot;</li>
 	                        <li>
@@ -152,9 +149,19 @@
 	    </footer>
 
     
-    <script src='{% static "js/jquery.js" %}' ></script>
+
 
     <!-- Bootstrap Core JavaScript -->
     <script src='{% static "js/bootstrap.min.js" %}'></script>
+
+    <!-- dependecies for textillate -->	   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
+    <!--
+	<script src="https://www.vusive.com/v2/plugins/textillate/jquery.lettering.js"></script>
+	<script src="http://jschr.github.io/textillate/jquery.textillate.js"></script>
+     -->
+			<!-- js Custom -->
+	<script type="text/javascript" src='{% static "js/lovebucks.js" %}'></script>
+
 	</body>
 </html>

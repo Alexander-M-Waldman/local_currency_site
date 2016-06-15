@@ -21,8 +21,19 @@ h6 {
     font-weight: 700;
 }
 
+body {padding-top: 0px;}
+
+.navbar {
+    background-color:  rgba(211, 185, 200, .95);
+}
+
+.navbar-nav>li>a{ /* 100+1=101 priority score, yay! */
+    color: blue;
+}
+
 .topnav {
-    font-size: 14px; 
+    font-size: 18px; 
+    color: blue;
 }
 
 .lead {
@@ -31,25 +42,34 @@ h6 {
 }
 
 .intro-header {
-    padding-top: 50px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+    /*padding-top: 50px;*/ /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
     padding-bottom: 50px;
     text-align: center;
-    color: #f8f8f8;
-    background: url(http://photos.visitphilly.com/girard-avenue-fishtown-philadelphia-976vp.jpg) no-repeat center center;
-/*        /media/img/intro-bg.jpg) no-repeat center center;*/
-    background-size: cover;
+    color: rgba(211, 185, 200, .9);
+/*    background: url(http://photos.visitphilly.com/girard-avenue-fishtown-philadelphia-976vp.jpg) no-repeat center center;*/
+    background: url(https://foreverfishtown.files.wordpress.com/2013/10/fishtown12.jpg) no-repeat center center;*/) no-repeat center center;
+    background-size: 100% auto;
 }
 
 .intro-message {
     position: relative;
-    padding-top: 20%;
-    padding-bottom: 20%;
+    padding-top: 10.59%;
+    padding-bottom: 10%;
 }
 
 .intro-message > h1 {
     margin: 0;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-size: 5em;
+    text-shadow: 4px 4px 6px rgba(0,0,0,0.9);
+    font-size: 9em;
+/*    font: 400 100px/1.3 'Berkshire Swash', Helvetica, sans-serif;
+*/    /*text-shadow: 1px 1px 0px #ededed, 4px 4px 0px rgba(0,0,0,0.15);*/
+    /* 100+1=101 priority score, yay! */
+    /*background: -webkit-repeating-linear-gradient(purple, red, yellow, green);*/
+    /*background: -white;*/
+    /*-webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;*/
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: white;
 }
 
 .intro-divider {
@@ -59,10 +79,74 @@ h6 {
 }
 
 .intro-message > h3 {
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
+    /*text-shadow: 2px 2px 3px;*/
+    background: #82eedf;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: white;
+    font-size: 2.5em;
+}.home-top {
+    .home-type {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+    }
+}
+.overlay {
+        z-index: 5;
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
+        background: url(/media/img/tile.png) repeat;
+    }
+
+.overlay .overlay-content {
+        height: 380px;
+        position: absolute;
+        top: 50%;
+        margin-top: -190px;
+        left: 0px;
+        right: 0px;
+    }
+.overlay.affix {
+    position: fixed;
+    z-index: 0;
+    }
+
+.overlay .fade-element {
+    color: white;
+    margin-top: 60px;
+    padding: 0px 40px;
+    /*display: none;*/
+    }
+
+.overlay .element-fader {
+    color: white;
+    margin-top: 60px;
+    padding: 0px 40px;
+}
+
+.overlay .container {
+    height: 100%;
+    position: relative;
+    }
+
+#header-overlay-h1 {
+    font-size: 10em;
+    color: pink;
+    font: 400 100px/1.3 'Berkshire Swash', Helvetica, sans-serif;
+    text-shadow: 1px 1px 0px #ededed, 4px 4px 0px rgba(0,0,0,0.15);
 }
 
 @media(max-width:767px) {
+
+    .intro-header {
+        background-size: cover;
+    }
+
     .intro-message {
         padding-bottom: 15%;
     }
@@ -84,6 +168,20 @@ h6 {
     .intro-divider {
         width: 100%;
     }
+
+    #maps{
+        background-size: cover;
+    }
+}
+
+.container-body{
+    position: relative;
+    margin:  0 auto;
+    display:inline-block;
+}
+
+.row {
+    margin-top: 58px;
 }
 
 .network-name {
@@ -115,24 +213,37 @@ h6 {
 }
 
 .banner {
-    padding: 100px 0;
+    padding: 70px 0;
     color: #f8f8f8;
-    background: url(/media/img/banner-bg.jpg) no-repeat center center;
+    /*background: url(/media/img/banner-bg.jpg) no-repeat center center;*/
+    background: url(https://upload.wikimedia.org/wikipedia/commons/2/25/Keith_Haring_We_Are_The_Youth.jpg) no-repeat center center;
     background-size: cover;
+}
+
+.banner-social-buttons {
+    text-align: center;
 }
 
 .banner h2 {
     margin: 0;
-    text-shadow: 2px 2px 3px rgba(0,0,0,0.6);
-    font-size: 3em;
+/*    -webkit-text-stroke-width: 3.5px;
+    -webkit-text-stroke-color: black ;*/
+    text-shadow: 4px 4px 6px rgba(0,0,0,1);
+    font-size: 7.25em;
+    color: white;
+    text-align:center;
+}
+.banner .col-lg-6 {
+    width: 100%;
 }
 
 .banner ul {
     margin-bottom: 0;
+    color: white;
 }
 
 .banner-social-buttons {
-    float: right;
+    margin-right: 10;
     margin-top: 0;
 }
 
@@ -150,6 +261,8 @@ h6 {
         font-size: 3em;
     }
 
+    
+
     ul.banner-social-buttons > li {
         display: block;
         margin-bottom: 20px;
@@ -162,14 +275,23 @@ h6 {
 }
 
 footer {
-    padding: 50px 0;
+    padding: 10px 0;
     background-color: #f8f8f8;
     position: relative;
-    bottom: 0;
+    bottom: 20px;
     width: 100%;
 }
 
 
 p.copyright {
-    margin: 15px 0 0;
+    margin: 5px 0 0;
+}
+
+a.clear {
+    display: inline;
+    clear: both;
+}
+
+img.profileimg {
+    display: inline;
 }

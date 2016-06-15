@@ -1,0 +1,138 @@
+
+{% extends 'base/membase.html' %}
+{% load static %}
+
+{% block content1 %}
+<!-- <div id='mapcontainer'> -->
+
+<div id='map' style='width: 800px; height: 600px;'></div>
+<script>
+// mapboxgl.accessToken = 'pk.eyJ1IjoiYXdhbGRtYW4iLCJhIjoiY2lwMjQ4bm00MDAwdXVmbTM4MmkxbWd1YiJ9.-TFYOSzjQzouS4XYYsZJKg';
+// // L.mapbox.accessToken = 'pk.eyJ1IjoiYXdhbGRtYW4iLCJhIjoiY2lwMjQ4bm00MDAwdXVmbTM4MmkxbWd1YiJ9.-TFYOSzjQzouS4XYYsZJKg';
+//   var map = new mapboxgl.Map({
+//       container: 'map',
+//       style: 'mapbox://styles/mapbox/streets-v9',
+//       center: [-75.1384, 39.97308],
+//       zoom: 13,
+//       interactive: true,
+//   });
+</script>
+<script> 
+L.mapbox.accessToken = 'pk.eyJ1IjoiYXdhbGRtYW4iLCJhIjoiY2lwMjQ4bm00MDAwdXVmbTM4MmkxbWd1YiJ9.-TFYOSzjQzouS4XYYsZJKg';
+var map = L.mapbox.map('map', 'mapbox.light')
+    .setView([39.97308, -75.1384], 12);
+
+var coordinates = document.getElementById('coordinates');
+
+</script>        
+
+{% for user in object_list %}
+<script>
+var marker = L.marker([{{user.user.location.y}}, {{user.user.location.x}}], {
+
+    icon: L.mapbox.marker.icon({
+      'marker-color': '#f86767'
+    }),
+    draggable: false
+}).addTo(map);
+
+marker.bindPopup( '<a href="/accounts/profile/{{user.user.user_id}}" class = "clear">{{ user.user.name }}</a>');    
+
+marker.on('mouseover', function (e) {
+    this.openPopup();
+});
+// marker.on('mouseout', function (e) {
+//     this.closePopup();
+// });
+
+// function onMouseOut(event) {
+//     e = event.toElement || event.relatedTarget;
+//     if (e.parentNode == this || 
+//                            e == this) {
+//         return;
+//     }
+//     // alert('MouseOut');
+//     this.closePopup();
+// };
+
+document.getElementById(".leaflet-marker-icon").addEventListener('mouseout',onMouseOut,true);
+
+
+// map.on('style.load', function (e) {
+//     console.log(e.style.sprite);
+//     map.addSource('markers', {
+//         "type": "geojson",
+//         "data": {
+//             "type": "FeatureCollection",
+//             "features": [{
+//                 "type": "Feature",
+//                 "geometry": {
+//                     "type": "Point",
+//                     "coordinates": [-77.03238901390978, 38.913188059745586]
+//                 },
+//                 "properties": {
+//                     "title": "Mapbox DC",
+//                     "marker-symbol": "default_marker"
+//                 }
+//             }, {
+//                 "type": "Feature",
+//                 "geometry": {
+//                     "type": "Point",
+//                     "coordinates": [-75.1384, 39.97308]
+//                 },
+//                 "properties": {
+//                     "title": "Mapbox SF",
+//                     "marker-color": "#ff00ff",
+//                     "marker-symbol": "secondary_marker"
+//                 }
+//             }]
+//         }
+//     });
+
+//     map.addLayer({
+//         "id": "markers",
+//         "source": "markers",
+//         "type": "symbol",
+//         "layout": {
+//             "icon-image": "{marker-symbol}",
+//             "text-field": "{title}",
+//             "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+//             "text-offset": [0, 0.6],
+//             "text-anchor": "top"
+//         }
+//     });
+// });
+
+
+//   var sourceObj = new mapboxgl.GeoJSONSource({
+//    data: {
+//        "type": "FeatureCollection",
+//        "features": [{
+//            "type": "Feature",
+//            "geometry": {
+//                "type": "Point",
+//                "coordinates": [
+//                    {{user.user.location.x}},
+//                    {{user.user.location.y}}
+//                ]
+//            }
+//        }]
+//    }
+// });
+//   document.write(sourceObj.data);
+// map.addSource({{user.pk}}, sourceObj); // add
+</script>
+
+{% endfor %}
+<script>
+var legend = L.control({position: 'topright'});
+legend.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend');
+    div.innerHTML = '<select><option>eat</option><option>live</option><option>learn</option><option>play</option><option>services</option><option>work</option></select>';
+    div.firstChild.onmousedown = div.firstChild.ondblclick = L.DomEvent.stopPropagation;
+    return div;
+};
+legend.addTo(map);
+</script>
+{% endblock %}
+

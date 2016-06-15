@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os, sys
-
+import config
 # import django
 # django.setup()
-sys.path.append("/opt/venv/lib/python2.7/site-packages")
+sys.path.append("/lib/python2.7/site-packages")
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -26,7 +26,7 @@ print BASE_DIR
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(dxnf(^&v+0eqhcytf(##0(^hpag_ack6+#ornu-7#2_o=557z'
+SECRET_KEY = config.SECRET_KEY
 #from django.utils.crypto import get_random_string
 # chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
 # SECRET_KEY = get_random_string(50, chars)
@@ -43,15 +43,28 @@ INSTALLED_APPS = [
     
     'django.contrib.admin',
     'django.contrib.auth',
-    #'django.contrib.sites',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.gis',
     'django.contrib.messages',
     'django.contrib.sessions',
     'django.contrib.staticfiles',
+    'members',
     'world',
     'crispy_forms',
     'debug_toolbar',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    #'leaflet',
+    #'allauth.socialaccount.providers.amazon',
+    #'allauth.socialaccount.providers.digitalocean',
+    #'allauth.socialaccount.providers.facebook',
+    #'allauth.socialaccount.providers.github',
+    #'allauth.socialaccount.providers.paypal',
+    #'allauth.socialaccount.providers.instagram',
+    #'allauth.socialaccount.providers.linkedin',
+    #'allauth.socialaccount.providers.google',
     #'userena',
     #'guardian',
     #'easy_thumbnails',
@@ -65,7 +78,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    #'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -87,6 +100,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 "django.core.context_processors.media",
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -101,10 +116,10 @@ WSGI_APPLICATION = 'geodjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'geodjango',
-        'HOST': 'localhost',
-        'USER': 'user',
-        'PASSWORD': 'password',
+        'NAME': config.DBNAME,
+        'HOST': config.DBHOST,
+        'USER': config.DBUSER,
+        'PASSWORD': config.DBPW,
     }
 }
 
@@ -131,6 +146,8 @@ AUTHENTICATION_BACKENDS = (
     #'userena.backends.UserenaAuthenticationBackend',
     #'guardian.backends.ObjectPermissionBackend',
     'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 # Internationalization
@@ -167,10 +184,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 #REGISTRATION_AUTO_LOGIN = True # Automatically log the user in.
 
 
-#ANONYMOUS_USER_ID = -1
-#SITE_ID=2
+ANONYMOUS_USER_ID = -1
+SITE_ID=3
 
-#AUTH_PROFILE_MODULE = 'accounts.MyProfile'
+AUTH_PROFILE_MODULE = 'members.UserProfile'
 
 #LOGIN_REDIRECT_URL = '/accounts/%(username)s/' 
 #LOGIN_URL = '/accounts/signin/'
@@ -178,15 +195,38 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 #USERENA_DISABLE_SIGNUP = False
 #USERENA_ACTIVATION_REQUIRED = False
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'hostemail@email.com'
-EMAIL_HOST_PASSWORD = 'password'
-EMAIL_PORT = 587
+EMAIL_BACKEND = config.EMAIL_BACKEND
+EMAIL_USE_TLS = config.EMAIL_USE_TLS
+EMAIL_HOST = config.EMAIL_HOST
+EMAIL_HOST_USER = config.EMAIL_HOST_USER
+EMAIL_HOST_PASSWORD = config.EMAIL_HOST_PASSWORD
+EMAIL_PORT = config.EMAIL_PORT
+
+# auth and allauth settings
+#LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', 'publish_stream'],
+        'METHOD': 'js_sdk'  # instead of 'oauth2'
+    }
+}
+
+# Custom allauth settings
+# Use email as the primary identifier
+ACCOUNT_AUTHENTICATION_METHOD = 'email' 
+ACCOUNT_EMAIL_REQUIRED = True
+# Make email verification mandatory to avoid junk email accounts
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory' 
+# Eliminate need to provide username, as it's a very old practice
+ACCOUNT_USERNAME_REQUIRED = False
+
+ACCOUNT_SIGNUP_FORM_CLASS = 'geodjango.forms.SignupForm'
+
+ACCOUNT_ADAPTER = 'members.adapter.MyAccountAdapter'
 
 def show_toolbar(request):
-    if not request.is_ajax() and request.user and request.user.username == "admin":
+    if not request.is_ajax() and request.user and request.user.username == config.toolbaruser:
         return True
     return False
 

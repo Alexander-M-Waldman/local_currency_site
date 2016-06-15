@@ -1,0 +1,10 @@
+.logged-in {
+    background: black no-repeat center 80px;
+}
+.logged-out {
+    background: gainsboro no-repeat center 30px;
+    background-size: 90%;
+}
+.pull-right {
+    float:right;
+}

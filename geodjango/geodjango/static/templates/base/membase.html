@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block content0 %}
+	
+{% block content01 %}
+{% endblock %}
+<div class="container body">
+	<div class="row">
+		<div class="col-lg-5 col-sm-6">
+			{% block content1 %}{% endblock %}
+		</div>
+		<div class="col-lg-5 col-sm-6">
+			{% block content2 %}{% endblock %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-5 col-sm-6">
+			{% block content3 %}{% endblock %}
+		</div>
+		<div class="col-lg-5 col-sm-6">
+			{% block content4 %}{% endblock %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-5 col-sm-6">
+			{% block content5 %}{% endblock %}
+			{% block content6 %}{% endblock %}
+		</div>
+	</div>
+</div>
+{% endblock %}
